@@ -11,7 +11,7 @@ class Profile{
     private $nama;
     private $alamat;
     private $tempat_lahir;
-    private $objSekolah;
+    //private $objSekolah;
 
     public function __construct(){
        // $this->objSekolah = new Sekolah();
@@ -34,6 +34,8 @@ class Profile{
     // public function getNamaSekolah(){
     //     return $this->objSekolah->getNama();
     // }
+
+    public function __destruct(){
+
+    }
 }
-
-
