@@ -1,6 +1,19 @@
 <?php
 
 /**
+ * sample configuration
+ */
+include_once 'config.php';
+
+/**
+ * include database class
+ */
+
+include_once "database.php";
+
+$db = new Database($configuration);
+
+/**
  * simple routing without login
  */
 if(!empty($_GET) && isset($_GET['page'])){
@@ -35,24 +48,42 @@ if(!isset($_SESSION['user'])){
 
     }else{
 
-        //include profile php
-        include_once 'profile.php';
-        //include sekolah
-        include_once 'sekolah.php';
-        //include orang tua
-        include_once 'orangtua.php';
+        /*
+         * to insert / update / delete data use execute method from class Database
+         *
+         */
 
+        /*
+         * insert profile
+         */
+        
+        $sql = "INSERT INTO profile(nama,alamat,tempat_lahir) VALUES (:nama,:alamat,:tempat_lahir)";
+        
+        $profile = array();
+        $profile["nama"] = "Jono";
+        $profile["alamat"] = "Jakarta";
+        $profile["tempat_lahir"] = "Jogja";
 
-        $objKtp = new Profile();
-        $objKtp->setNama('Dyan Galih Nugroho');
-        //$objKtp->setNamaSekolah('TK');
+        $db->execute($sql, $profile);
+        
 
-        $objKtpTeman = new Profile();
-        $objKtpTeman->setNama('Nama teman');
+        /*
+         *  query get all data profile
+        */
+        $sql = "SELECT * FROM profile";
 
-        echo $objKtpTeman->getNama();
-        echo '<br />';
-        echo $objKtp->getNama();
-        //echo $objKtp->getNamaSekolah();
+        /*
+         * get data profile use class database an method open. Send sql and empty array
+        */
+        $profile = $db->open($sql,array());
+
+        /*
+         *  display the formated data to browser
+        */
+        echo "<pre>";
+        print_r($profile);
+        echo "</pre>";
+
+        // after login
     }
 }
